@@ -44,6 +44,18 @@ class Manga(object):
         self.__chapters.reverse()
 
     def search(self, title: str) -> Chapter:
+        """Performs a search in the manga list based in the title passed to the function
+
+        Arguments:
+            title {str} -- The title of the chapter you looking for
+
+        Raises:
+            ChapterNotFound: If the title is not found in the manga list the ChapterNotFound error is raised
+            ChapterListEmpty: If the manga list is empty the ChapterListEmpty error is raised, you probably not run the populate method
+
+        Returns:
+            Chapter -- If the title is found the method will return the respective Chapter object
+        """
         if self.__chapters:
             for chapter in self.__chapters:
                 if chapter.title.lower() == title.lower():
