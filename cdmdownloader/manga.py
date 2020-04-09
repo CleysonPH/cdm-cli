@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from typing import List
 
 from cdmdownloader.chapter import Chapter
+from cdmdownloader.exeptions import ChapterListEmpty, ChapterNotFound
 
 
 class Manga(object):
@@ -41,3 +42,12 @@ class Manga(object):
             chapter in chapters
         ]
         self.__chapters.reverse()
+
+    def search(self, title: str) -> Chapter:
+        if self.__chapters:
+            for chapter in self.__chapters:
+                if chapter.title.lower() == title.lower():
+                    return chapter
+            raise ChapterNotFound('Capítulo não encontrado')
+        else:
+            raise ChapterListEmpty('A lista de capítulos está vazia')

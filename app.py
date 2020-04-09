@@ -6,13 +6,15 @@ if __name__ == "__main__":
     print('Atualizando a lista de mangás disponíveis')
     finder.populate()
 
-    search = input('Qual mangá deseja baixar? ')
-    manga = finder.search(search)
+    manga_title = input('Qual mangá deseja baixar? ')
+    manga = finder.search(manga_title)
 
     print('Atualizando a lista de cápitulos disponíveis')
     manga.populate()
 
-    for chapter in manga.chapters:
-        print(f'Baixando cápitulo {chapter.title}')
-        chapter.populate()
-        chapter.download(directory=manga.title)
+    chapter_title = input('Qual capítulo deseja baixar? ')
+    chapter = manga.search(chapter_title)
+
+    print(f'Baixando o capítulo {chapter.title} de {manga.title}')
+    chapter.populate()
+    chapter.download(manga.title)
