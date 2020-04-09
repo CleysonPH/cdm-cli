@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "cdmdownloader"
+version = "0.1.0"
+description = ""
+authors = ["Cleyson Lima <cleysonph@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+requests = "^2.23.0"
+beautifulsoup4 = "^4.9.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^4.6"
+autopep8 = "^1.5.1"
+requests-cache = "^0.5.2"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
