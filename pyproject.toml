@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "cdmdownloader"
+name = "cdm"
 version = "0.1.0"
-description = ""
+description = "A CLI for search and download mangas form the CDM website"
 authors = ["Cleyson Lima <cleysonph@gmail.com>"]
 
 [tool.poetry.dependencies]
@@ -19,3 +19,6 @@ bpython = "^0.19"
 [build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
+
+[tool.poetry.scripts]
+cdm = "cdm.cli:cli"

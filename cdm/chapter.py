@@ -5,8 +5,8 @@ import requests
 from typing import List, Dict
 from bs4 import BeautifulSoup
 
-from cdmdownloader.page import Page
-from cdmdownloader.exeptions import PagesListEmpty
+from .page import Page
+from .exeptions import PagesListEmpty
 
 
 class Chapter(object):

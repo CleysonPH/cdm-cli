@@ -3,8 +3,8 @@ import time
 
 from typing import List
 
-from cdmdownloader.finder import Finder, Manga
-from cdmdownloader.exeptions import ChapterNotFound, MangaNotFound
+from .finder import Finder, Manga
+from .exeptions import ChapterNotFound, MangaNotFound
 
 
 @click.group()

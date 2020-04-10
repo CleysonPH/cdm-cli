@@ -4,8 +4,8 @@ import requests
 from bs4 import BeautifulSoup
 from typing import List
 
-from cdmdownloader.manga import Manga
-from cdmdownloader.exeptions import MangaListEmpty, MangaNotFound
+from cdm.manga import Manga
+from cdm.exeptions import MangaListEmpty, MangaNotFound
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))

@@ -3,8 +3,8 @@ import requests
 from bs4 import BeautifulSoup
 from typing import List
 
-from cdmdownloader.chapter import Chapter
-from cdmdownloader.exeptions import ChapterListEmpty, ChapterNotFound
+from .chapter import Chapter
+from .exeptions import ChapterListEmpty, ChapterNotFound
 
 
 class Manga(object):
