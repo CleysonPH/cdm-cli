@@ -1,3 +1,4 @@
+import os
 import requests
 import requests_cache
 
@@ -7,7 +8,10 @@ from typing import List
 from cdmdownloader.manga import Manga
 from cdmdownloader.exeptions import MangaListEmpty, MangaNotFound
 
+
 requests_cache.install_cache('cache')
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 class Finder(object):
@@ -20,6 +24,21 @@ class Finder(object):
     def mangas(self) -> List[Manga]:
         return self.__mangas.copy()
 
+    def _get_manga_list_from_file(self) -> List[Manga]:
+        """Get the mangas list of the file manga_list.txt
+
+        Returns:
+            List[Manga] -- The list with the mangas available in the file
+        """
+        manga_list: List[Manga] = []
+
+        with open(os.path.join(BASE_DIR, 'manga_list.txt'), 'r') as file:
+            for line in file.readlines():
+                title, link = line.strip().split('|')
+                manga = Manga(title, link)
+                manga_list.append(manga)
+        return manga_list
+
     def _get_number_of_pages(self) -> None:
         """Make a request to CDM website and get the total pages in the pagination manga list"""
         response = requests.get(f'{self.__base_url}1')
@@ -29,8 +48,11 @@ class Finder(object):
                 'a', class_='ui circular mini icon basic button')[-1].text
         )
 
-    def populate(self) -> None:
-        """Populate the mangas attribute by make requests in each page of the manga list CDM website
+    def _get_manga_list_from_cdm(self) -> List[Manga]:
+        """Get all the mangas by make requests in each page of the manga list CDM website
+
+        Returns:
+            List[Manga] -- The list with the mangas available in the CDM website
         """
         self._get_number_of_pages()
         manga_list: List[Manga] = []
@@ -42,6 +64,26 @@ class Finder(object):
                 Manga(manga.text.strip(), manga.get('href')) for
                 manga in mangas
             ]
+        return manga_list
+
+    def populate(self) -> None:
+        """Populate the mangas attribute with de mangas available in the file manga_list.txt if the file exists, otherwise call the update method
+        """
+        try:
+            self.__mangas = self._get_manga_list_from_file()
+        except:
+            self.update()
+
+    def update(self) -> None:
+        """Create the file manga_list.txt with the mangas available in the CDM website and update the mangas attribute
+        """
+        manga_list = self._get_manga_list_from_cdm()
+
+        with open(os.path.join(BASE_DIR, 'manga_list.txt'), 'w') as file:
+            for manga in manga_list:
+                file.write(
+                    f'{manga.title}|{manga.link[29:]}\n'
+                )
         self.__mangas = manga_list
 
     def search(self, title: str) -> Manga:
