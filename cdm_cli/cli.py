@@ -7,15 +7,9 @@ from .finder import Finder, Manga
 from .exeptions import ChapterNotFound, MangaNotFound
 
 
-@click.group(invoke_without_command=True)
-@click.option('--version', is_flag=True, help='Shows the version of the CLI')
-def cli(version: bool):
-    if version:
-        from cdm_cli import __version__
-        click.echo(f'Version {__version__}')
-    else:
-        ctx = click.get_current_context()
-        click.echo(ctx.get_help())
+@click.group()
+def cli():
+    pass
 
 
 @click.argument('manga')
