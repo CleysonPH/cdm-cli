@@ -1,6 +1,5 @@
 import os
 import requests
-import requests_cache
 
 from bs4 import BeautifulSoup
 from typing import List
@@ -8,8 +7,6 @@ from typing import List
 from cdmdownloader.manga import Manga
 from cdmdownloader.exeptions import MangaListEmpty, MangaNotFound
 
-
-requests_cache.install_cache('cache')
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 

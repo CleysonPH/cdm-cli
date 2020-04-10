@@ -1,18 +1,26 @@
 import click
+import time
 
-from cdmdownloader.finder import Finder
+from typing import List
+
+from cdmdownloader.finder import Finder, Manga
 from cdmdownloader.exeptions import ChapterNotFound, MangaNotFound
 
 
-@click.command()
-@click.option('--manga', required=True, prompt='Manga title', help='Title of the manga you want to download')
+@click.group()
+def cli():
+    pass
+
+
+@click.argument('manga')
 @click.option('--chapter', help='Title of the chapter you want to download')
 @click.option('--all', is_flag=True, help='Download all the chapters')
 @click.option('--last', is_flag=True, help='Download the last chapter')
-def cli(manga: str, chapter: str, all: bool, last: bool):
+@cli.command()
+def download(manga: str, chapter: str, all: bool, last: bool):
     finder = Finder()
 
-    click.echo('Updating the available mangas')
+    click.echo('Getting the available mangas')
     finder.populate()
 
     try:
@@ -51,6 +59,52 @@ def cli(manga: str, chapter: str, all: bool, last: bool):
         click.echo('Manga not found')
     except ChapterNotFound:
         click.echo('Chapter not found')
+
+
+@cli.command()
+def update():
+    finder = Finder()
+    finder.populate()
+    before_update = len(finder.mangas)
+
+    click.echo('Updating the manga list by the CDM website')
+    finder.update()
+
+    after_update = len(finder.mangas)
+
+    click.echo(
+        f'Update complete, found {after_update - before_update} new manga(s)'
+    )
+
+
+@cli.command()
+def show():
+    finder = Finder()
+
+    click.echo('Getting the available mangas')
+    finder.populate()
+
+    click.echo(f'List of available mangas, total: {len(finder.mangas)}')
+    time.sleep(1)
+    for manga in finder.mangas:
+        click.echo(manga)
+
+
+@cli.command()
+@click.argument('manga')
+def search(manga):
+    finder = Finder()
+    finder.populate()
+
+    results: List[Manga] = []
+
+    for m in finder.mangas:
+        if manga.lower() in m.title.lower():
+            results.append(m)
+
+    click.echo(f'Found {len(results)} result(s)')
+    for m in results:
+        click.echo(m)
 
 
 if __name__ == "__main__":
