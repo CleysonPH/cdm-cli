@@ -8,9 +8,6 @@ from .manga import Manga
 from .exeptions import MangaListEmpty, MangaNotFound
 
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-
 class Finder(object):
     def __init__(self) -> None:
         self.__mangas: List[Manga] = []
@@ -29,7 +26,8 @@ class Finder(object):
         """
         manga_list: List[Manga] = []
 
-        with open(os.path.join(BASE_DIR, 'manga_list.txt'), 'r') as file:
+        home_dir = os.path.expanduser('~')
+        with open(os.path.join(home_dir, 'manga_list.txt'), 'r') as file:
             for line in file.readlines():
                 title, link = line.strip().split('|')
                 manga = Manga(title, link)
@@ -76,7 +74,8 @@ class Finder(object):
         """
         manga_list = self._get_manga_list_from_cdm()
 
-        with open(os.path.join(BASE_DIR, 'manga_list.txt'), 'w') as file:
+        home_dir = os.path.expanduser('~')
+        with open(os.path.join(home_dir, 'manga_list.txt'), 'w') as file:
             for manga in manga_list:
                 file.write(
                     f'{manga.title}|{manga.link[29:]}\n'
