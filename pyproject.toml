@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "cdm_cli"
-version = "0.1.1"
+version = "0.1.2"
 description = "A CLI for search and download mangas form the CDM website"
 authors = ["Cleyson Lima <cleysonph@gmail.com>"]
 
